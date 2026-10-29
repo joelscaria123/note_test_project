@@ -3,6 +3,9 @@ import express from "express";
 import dotenv from "dotenv";
 import notesRoutes from "./routes/notesRoutes.js";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import cors from "cors";
+import cookieParser from "cookie-parser"
 
 dotenv.config({ quiet: true})
 
@@ -11,6 +14,14 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 
+app.use(cookieParser());
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}));
+
+app.use("/api/auth", authRoutes);
 app.use("/api/notes", notesRoutes);
 
 
